@@ -194,6 +194,7 @@ const pipes = {
     h : 400,
     gap : 85,
     maxYPos : -150,
+    dx : 2,
     
     draw : function(){
         for(let i  = 0; i < this.position.length; i++){
@@ -207,6 +208,28 @@ const pipes = {
             
             // bottom pipe
             ctx.drawImage(sprite, this.bottom.sX, this.bottom.sY, this.w, this.h, p.x, bottomYPos, this.w, this.h);  
+        }
+    },
+
+    update: function(){
+        if(state.current !== state.game) return;
+        
+        if(frames%100 == 0){
+            this.position.push({
+                x : cvs.width,
+                y : this.maxYPos * ( Math.random() + 1)
+            });
+        }
+        for(let i = 0; i < this.position.length; i++){
+            let p = this.position[i];
+            
+            // MOVE THE PIPES TO THE LEFT
+            p.x -= this.dx;
+            
+            // if the pipes go beyond canvas, we delete them from the array
+            if(p.x + this.w <= 0){
+                this.position.shift();
+            }
         }
     }
     
@@ -229,6 +252,7 @@ function draw() {
 function update() {
     bird.update();
     fg.update();
+    pipes.update();
 }
 
 // LOOP
