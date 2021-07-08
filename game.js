@@ -177,12 +177,48 @@ const gameOver = {
     
 }
 
+// PIPES
+const pipes = {
+    position : [],
+    
+    top : {
+        sX : 553,
+        sY : 0
+    },
+    bottom:{
+        sX : 502,
+        sY : 0
+    },
+    
+    w : 53,
+    h : 400,
+    gap : 85,
+    maxYPos : -150,
+    
+    draw : function(){
+        for(let i  = 0; i < this.position.length; i++){
+            let p = this.position[i];
+            
+            let topYPos = p.y;
+            let bottomYPos = p.y + this.h + this.gap;
+            
+            // top pipe
+            ctx.drawImage(sprite, this.top.sX, this.top.sY, this.w, this.h, p.x, topYPos, this.w, this.h);  
+            
+            // bottom pipe
+            ctx.drawImage(sprite, this.bottom.sX, this.bottom.sY, this.w, this.h, p.x, bottomYPos, this.w, this.h);  
+        }
+    }
+    
+}
+
 // DRAW
 function draw() {
     ctx.fillStyle = "#70c5ce";
     ctx.fillRect(0, 0, cvs.width, cvs.height);
 
     bg.draw();
+    pipes.draw();
     fg.draw();
     bird.draw();
     getReady.draw();
